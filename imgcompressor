@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdSense-Driven Website</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero">
+      <h1>Welcome to our AdSense-Driven Website</h1>
+      <p>Maximize your earnings with our SEO-friendly platform.</p>
+    </section>
+
+    <section id="image-resizer">
+      <h2>Resize your images</h2>
+      <input type="file" id="image-input" accept="image/*">
+      <input type="number" id="pixel-size" placeholder="Enter desired pixel size">
+      <button id="resize-button">Resize</button>
+      <img id="resized-image" src="#" alt="Resized image">
+    </section>
+
+    <section id="adsense-ads">
+      <h2>Check out our AdSense Ads</h2>
+      <!-- AdSense ad placeholders -->
+      <div id="adsense-1"></div>
+      <div id="adsense-2"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 AdSense-Driven Website. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header styles */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Main content styles */
+main {
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+/* Image resizer styles */
+#image-resizer {
+  text-align: center;
+}
+
+#resized-image {
+  max-width: 100%;
+  height: auto;
+}
+
+/* AdSense ad styles */
+#adsense-ads {
+  text-align: center;
+}
+
+#adsense-1, #adsense-2 {
+  width: 300px;
+  height: 250px;
+  margin: 0 auto;
+}
+
+/* Footer styles */
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+const imageInput = document.getElementById('image-input');
+const pixelSizeInput = document.getElementById('pixel-size');
+const resizeButton = document.getElementById('resize-button');
+const resizedImage = document.getElementById('resized-image');
+
+resizeButton.addEventListener('click', () => {
+  const file = imageInput.files[0];
+  const desiredPixelSize = pixelSizeInput.value;
+
+  if (file && desiredPixelSize) {
+    const image = new Image();
+    image.src = URL.createObjectURL(file);
+
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      const aspectRatio = image.width / image.height;
+      let newWidth, newHeight;
+
+      if (image.width > image.height) {
+        newWidth = desiredPixelSize;
+        newHeight = Math.round(desiredPixelSize / aspectRatio);
+      } else {
+        newHeight = desiredPixelSize;
+        newWidth = Math.round(desiredPixelSize * aspectRatio);
+      }
+
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+      context.drawImage(image, 0, 0, newWidth, newHeight);
+
+      resizedImage.src = canvas.toDataURL();
+    };
+  }
+});
